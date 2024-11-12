@@ -15,12 +15,21 @@
  */
 
 package com.example.inventory.data
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 
 
 /**
  * Entity data class represents a single row in the database.
- */
+ *
+ * Mendefinisikan entitas `Item` untuk tabel database Room yang diberi nama "items"
+ * `@Entity`: Menandai class ini sebagai entitas untuk Room, yang akan diterjemahkan menjadi tabel SQLite.
+ * Menjadikan kolom `id` sebagai primary key tabel dengan auto-increment untuk setiap item baru.
+*/
+@Entity(tableName = "items")
 class Item(
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
     val price: Double,

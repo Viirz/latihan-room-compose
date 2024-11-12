@@ -22,12 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.inventory.data.Item
 import java.text.NumberFormat
+import com.example.inventory.data.ItemsRepository
 
 /**
  * ViewModel to validate and insert items in the Room database.
+ *
+ * Mengubah parameter pada class ItemEntryViewModel menjadi private val itemsRepository: ItemsRepository
  */
-class ItemEntryViewModel : ViewModel() {
-
+class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
     /**
      * Holds current item ui state
      */
@@ -46,6 +48,16 @@ class ItemEntryViewModel : ViewModel() {
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
+        }
+    }
+
+    /**
+     * Menyimpan item jika input valid
+     * lalu menambahkan item ke repository dengan memanggil insertItem dari itemsRepository.
+     */
+    suspend fun saveItem() {
+        if (validateInput()) {
+            itemsRepository.insertItem(itemUiState.itemDetails.toItem())
         }
     }
 }
